@@ -98,6 +98,13 @@ SBMediaController *mediaController;
 }
 %end
 
+// Thanks MrGcGamer - NoDNDBanner
+%hook DNDNotificationsService
+-(void)_queue_postOrRemoveNotificationWithUpdatedBehavior:(BOOL)arg1 significantTimeChange:(BOOL)arg2 {
+	// Absolutely Nothing :)
+}
+%end
+
 %end // %group VibinTweak
 
 %ctor {
