@@ -2,7 +2,7 @@ Package: com.chr1s.vibin
 Name: Vibin
 Version: 1.0.0
 Architecture: iphoneos-arm
-Description: Don't disrupt the vibe (Enables Do Not Disturb when playing music)
+Description: Don't disrupt the vibe
 Maintainer: Chr1s
 Author: Chr1s
 Section: Tweaks
