@@ -1,17 +1,6 @@
-#import "MediaRemote.h"
-#import "SBMediaController.h"
-#import <objc/runtime.h>
+#import "Tweak.h"
 
-@interface NCNotificationListView : UIScrollView
-@end
-
-@interface NCNotificationStructuredListViewController : UIViewController
-@property (nonatomic, retain) NCNotificationListView *masterListView;
-// %new
--(void)hideNotifs;
--(void)showNotifs;
-@end
-
+%group VibinTweak
 %hook NCNotificationStructuredListViewController
 -(void)viewDidAppear:(BOOL)animated {
     static dispatch_once_t onceToken;
@@ -53,35 +42,7 @@
 }
 %end
 
-//Do Not Disturb
-@class DNDModeAssertionLifetime;
-
-@interface DNDModeAssertionDetails : NSObject
-+ (id)userRequestedAssertionDetailsWithIdentifier:(NSString *)identifier modeIdentifier:(NSString *)modeIdentifier lifetime:(DNDModeAssertionLifetime *)lifetime;
-- (BOOL)invalidateAllActiveModeAssertionsWithError:(NSError **)error;
-- (id)takeModeAssertionWithDetails:(DNDModeAssertionDetails *)assertionDetails error:(NSError **)error;
-@end
-
-@interface DNDModeAssertionService : NSObject
-+ (id)serviceForClientIdentifier:(NSString *)clientIdentifier;
-- (BOOL)invalidateAllActiveModeAssertionsWithError:(NSError **)error;
-- (id)takeModeAssertionWithDetails:(DNDModeAssertionDetails *)assertionDetails error:(NSError **)error;
-@end
-
-static BOOL DNDEnabled;
-static DNDModeAssertionService *assertionService;
-
-typedef struct {
-	BOOL active;
-	BOOL enabled;
-	BOOL sunSchedulePermitted;
-	int mode;
-	unsigned long long disableFlags;
-	BOOL available;
-} Status;
-
-
-void enableDND() {
+void turnOnDND() {
 	if (!assertionService) {
 		assertionService = (DNDModeAssertionService *)[objc_getClass("DNDModeAssertionService") serviceForClientIdentifier:@"com.apple.donotdisturb.control-center.module"];
 	}
@@ -89,7 +50,7 @@ void enableDND() {
 	[assertionService takeModeAssertionWithDetails:newAssertion error:NULL];
 }
 
-void disableDND() {
+void turnOffDND() {
 	if (!assertionService) {
     	assertionService = (DNDModeAssertionService *)[objc_getClass("DNDModeAssertionService") serviceForClientIdentifier:@"com.apple.donotdisturb.control-center.module"];
     }
@@ -120,11 +81,31 @@ SBMediaController *mediaController;
 %new
 - (void)currentSongChanged:(NSNotification *)notification {
     if (mediaController.isPlaying) {
-		enableDND();
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"hideNotificationsOnCS" object:self];
+		if (enableDND) {
+			turnOnDND();
+		}
+		if (enableHideNotifs) {
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"hideNotificationsOnCS" object:self];
+		}
     } else {
-		disableDND();
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"showNotificationsOnCS" object:self];
+		if (enableDND) {
+			turnOffDND();
+		}
+		if (enableHideNotifs) {
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"showNotificationsOnCS" object:self];
+		}
 	}
 }
 %end
+
+%end // %group VibinTweak
+
+%ctor {
+	preferences = [[HBPreferences alloc] initWithIdentifier:@"com.chr1s.vibinprefs"];
+	[preferences registerBool:&enabled default:YES forKey:@"enabled"];
+	[preferences registerBool:&enableDND default:YES forKey:@"enableDND"];
+	[preferences registerBool:&enableHideNotifs default:YES forKey:@"enableHideNotifs"];
+	if (enabled) {
+		%init(VibinTweak);
+	}
+}

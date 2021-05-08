@@ -8,6 +8,9 @@ TWEAK_NAME = Vibin
 
 Vibin_FILES = $(wildcard *.xm *.m)
 $(TWEAK_NAME)_PRIVATE_FRAMEWORKS = MediaRemote
+$(TWEAK_NAME)_EXTRA_FRAMEWORKS += Cephei
 Vibin_CFLAGS = -fobjc-arc
 
 include $(THEOS_MAKE_PATH)/tweak.mk
+SUBPROJECTS += vibinprefs
+include $(THEOS_MAKE_PATH)/aggregate.mk
