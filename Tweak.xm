@@ -1,6 +1,30 @@
 #import "Tweak.h"
 
 %group VibinTweak
+
+%hook AXNView
+-(id)initWithFrame:(CGRect)frame {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideView) name:@"hideNotificationsOnCS" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showView) name:@"showNotificationsOnCS" object:nil];
+    });
+	return %orig;
+}
+%new
+-(void)hideView {
+	[UIView animateWithDuration:0.8 animations:^{
+		self.alpha = 0;
+	}];
+}
+%new
+-(void)showView {
+	[UIView animateWithDuration:0.8 animations:^{
+		self.alpha = 1;
+	}];
+}
+%end
+
 %hook NCNotificationStructuredListViewController
 -(void)viewDidAppear:(BOOL)animated {
     static dispatch_once_t onceToken;
@@ -81,17 +105,17 @@ SBMediaController *mediaController;
 %new
 - (void)currentSongChanged:(NSNotification *)notification {
     if (mediaController.isPlaying) {
-		if (enableDND) {
+		if (enableDND && enabled) {
 			turnOnDND();
 		}
-		if (enableHideNotifs) {
+		if (enableHideNotifs && enabled) {
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"hideNotificationsOnCS" object:self];
 		}
     } else {
-		if (enableDND) {
+		if (enableDND && enabled) {
 			turnOffDND();
 		}
-		if (enableHideNotifs) {
+		if (enableHideNotifs && enabled) {
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"showNotificationsOnCS" object:self];
 		}
 	}
@@ -112,6 +136,12 @@ SBMediaController *mediaController;
 	[preferences registerBool:&enabled default:YES forKey:@"enabled"];
 	[preferences registerBool:&enableDND default:YES forKey:@"enableDND"];
 	[preferences registerBool:&enableHideNotifs default:YES forKey:@"enableHideNotifs"];
+
+	// This is for the CCToggle (If there is a better way of doing the whole toggle thing PLS let me know)
+	[preferences registerPreferenceChangeBlock:^(){
+		enabled = [preferences boolForKey:@"enabled"];
+	}];
+
 	if (enabled) {
 		%init(VibinTweak);
 	}

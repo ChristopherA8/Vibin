@@ -12,5 +12,5 @@ $(TWEAK_NAME)_EXTRA_FRAMEWORKS += Cephei
 Vibin_CFLAGS = -fobjc-arc
 
 include $(THEOS_MAKE_PATH)/tweak.mk
-SUBPROJECTS += vibinprefs
+SUBPROJECTS += vibinprefs cctoggle
 include $(THEOS_MAKE_PATH)/aggregate.mk

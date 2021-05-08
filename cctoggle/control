@@ -1,0 +1,9 @@
+Package: com.chr1s.cctoggle
+Name: cctoggle
+Depends: mobilesubstrate
+Version: 1.0.1
+Architecture: iphoneos-arm
+Description: Enable/Disable Vibin
+Maintainer: Chr1s
+Author: Chr1s
+Section: Control Center (Modules)

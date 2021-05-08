@@ -7,6 +7,10 @@ BOOL enabled;
 BOOL enableDND;
 BOOL enableHideNotifs;
 
+// Axon support
+@interface AXNView : UIView
+@end
+
 @interface NCNotificationListView : UIScrollView
 @end
 
