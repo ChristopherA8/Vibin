@@ -6,4 +6,4 @@ Description: Don't disrupt the vibe
 Maintainer: Chr1s
 Author: Chr1s
 Section: Tweaks
-Depends: mobilesubstrate (>= 0.9.5000), preferenceloader, ws.hbang.common (>= 1.15.1), com.opa334.ccsupport
+Depends: mobilesubstrate (>= 0.9.5000), preferenceloader, ws.hbang.common (>= 1.15.1)

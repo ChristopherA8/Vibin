@@ -89,6 +89,25 @@ void turnOffDND() {
 }
 %end
 
+// %hook CXCall
+// -(BOOL)hasConnected {
+// 	NSLog(@"hasConnected");
+// 	return %orig;
+// }
+// -(void)setHasConnected:(BOOL)arg1 {
+// 	NSLog(@"setHasConnected");
+// 	%orig;
+// }
+// -(BOOL)hasEnded {
+// 	NSLog(@"hasEnded");
+// 	return %orig;
+// }
+// -(void)setHasEnded:(BOOL)arg1 {
+// 	NSLog(@"setHasEnded");
+// 	%orig;
+// }
+// %end
+
 SBMediaController *mediaController;
 
 %hook SBUIController
@@ -141,6 +160,8 @@ SBMediaController *mediaController;
 	[preferences registerPreferenceChangeBlock:^(){
 		enabled = [preferences boolForKey:@"enabled"];
 	}];
+
+	NSLog(@"hi");
 
 	if (enabled) {
 		%init(VibinTweak);

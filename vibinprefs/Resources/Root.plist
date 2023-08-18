@@ -8,9 +8,9 @@
 			<key>cellClass</key>
 			<string>KRTwitterCell</string>
 			<key>label</key>
-			<string>Chr1s</string>
+			<string>Christopher Anderson</string>
 			<key>accountName</key>
-			<string>chr1sdev</string>
+			<string>ChristopherA8</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -91,6 +91,14 @@
 			<string>Source Code</string>
 			<key>action</key>
 			<string>sourceCode</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>HBLinkTableCell</string>
+			<key>label</key>
+			<string>Website</string>
+			<key>action</key>
+			<string>website</string>
 		</dict>
 	</array>
 	<key>title</key>

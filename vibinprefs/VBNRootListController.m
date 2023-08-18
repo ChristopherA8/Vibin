@@ -36,6 +36,10 @@
 	return _specifiers;
 }
 
+- (void)respring {
+  [HBRespringController respring];
+}
+
 -(void)discord {
 	NSURL *discord = [NSURL URLWithString:@"https://discord.gg/zHN7yuGqYr"];
 	[[UIApplication sharedApplication] openURL:discord options:@{} completionHandler:nil];
@@ -47,7 +51,12 @@
 }
 
 -(void)sourceCode {
-	NSURL *source = [NSURL URLWithString:@"https://github.com/Chr1sDev/vibin"];
+	NSURL *source = [NSURL URLWithString:@"https://github.com/ChristopherA8/vibin"];
+	[[UIApplication sharedApplication] openURL:source options:@{} completionHandler:nil];
+}
+
+-(void)website {
+	NSURL *source = [NSURL URLWithString:@"https://christopher.jp.net"];
 	[[UIApplication sharedApplication] openURL:source options:@{} completionHandler:nil];
 }
 
