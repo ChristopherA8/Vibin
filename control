@@ -1,9 +1,9 @@
 Package: com.chr1s.vibin
 Name: Vibin
-Version: 1.0.1
+Version: 1.0.2
 Architecture: iphoneos-arm
 Description: Don't disrupt the vibe
-Maintainer: Chr1s
-Author: Chr1s
+Maintainer: Christopher Anderson
+Author: Christopher Anderson
 Section: Tweaks
 Depends: mobilesubstrate (>= 0.9.5000), preferenceloader, ws.hbang.common (>= 1.15.1)
